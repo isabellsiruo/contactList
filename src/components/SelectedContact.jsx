@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 
-export default function SelectedContact({
-  selectedContactId,
-  setSelectedContactId,
-}) {
-  const [contact, setContact] = useState(null);
+export default function SelectedContact({ selectedContactId, setSelectedContactId }) {
+  const [selectedContact, setSelectedContact] = useState(null);
 
-  //fetch detailed info about selected contact
+  //fetch details for selected contact
   useEffect(() => {
     async function fetchContact() {
       try {
@@ -14,31 +11,36 @@ export default function SelectedContact({
           `https://fsa-jsonplaceholder-69b5c48f1259.herokuapp.com/users/${selectedContactId}`
         );
         const result = await response.json();
-        //save contact details in state
-        setContact(result); 
+        //store contact details in state
+        setSelectedContact(result); 
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching contact:", error);
       }
     }
     fetchContact();
-    //runs when selectedContactId changes
-  }, [selectedContactId]); 
+  }, [selectedContactId]);
 
-    //prevent error by checking if contact is null before accessing properties
-    if (!contact) return <p>Loading contact details...</p>;
+  //prevent app from crashing while data is being fetched
+  if (!selectedContact) return <p>Loading contact details...</p>;
 
   return (
     <div>
-      <h2>{contact.name}</h2>
-      <p><strong>Email:</strong> {contact.email}</p>
-      <p><strong>Phone:</strong> {contact.phone}</p>
-      <p><strong>Username:</strong> {contact.username}</p>
-      <p><strong>Website:</strong> {contact.website}</p>
-      <p><strong>Company:</strong> {contact.company.name}</p>
-      <p><strong>Address:</strong> {contact.address.street}, {contact.address.city}</p>
+      <h2>📞 Contact Details: {selectedContact.name}</h2>
+      <p><strong>Email:</strong> {selectedContact.email}</p>
+      <p><strong>Phone:</strong> {selectedContact.phone}</p>
+      <p><strong>Username:</strong> {selectedContact.username}</p>
+      <p><strong>Website:</strong> {selectedContact.website}</p>
+      <p><strong>Company:</strong> {selectedContact.company?.name}</p>
+      <p><strong>Address:</strong> {selectedContact.address?.street}, {selectedContact.address?.city}</p>
 
-      {/* Button to go back to full contact list */}
-      <button onClick={() => setSelectedContactId(null)}>Return to Contact List</button>
+      {/* button to return to contact list */}
+      <button 
+        onClick={() => setSelectedContactId(null)} 
+        style={{ backgroundColor: "lightblue", padding: "10px", borderRadius: "5px" }}
+      >
+        ⬅ Return to Contact List
+      </button>
     </div>
   );
 }
+

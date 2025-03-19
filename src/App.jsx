@@ -1,27 +1,25 @@
-//import CSS file for styling
-import "./App.css"; 
-//import useState to manage selected contact
-import { useState } from "react"; 
-//import ContactList component
-import ContactList from "./components/ContactList"; 
-//import SelectedContact component
-import SelectedContact from "./components/SelectedContact"; 
+import "./App.css";
+import { useState } from "react";
+import ContactList from "./components/ContactList";
+import SelectedContact from "./components/SelectedContact";
 
 export default function App() {
-  //state variable to track which contact is selected
+  //state to track which contact is selected
   const [selectedContactId, setSelectedContactId] = useState(null);
 
   return (
     <>
-      {/* conditionally render either ContactList or SelectedContact based on selectedContactId */}
       {selectedContactId ? (
-        <SelectedContact
-          selectedContactId={selectedContactId}
-          setSelectedContactId={setSelectedContactId}
+        //if contact is selected show their details
+        <SelectedContact 
+          selectedContactId={selectedContactId} 
+          setSelectedContactId={setSelectedContactId} 
         />
       ) : (
+        //otherwise show full contact list
         <ContactList setSelectedContactId={setSelectedContactId} />
       )}
     </>
   );
 }
+
