@@ -24,31 +24,21 @@ export default function SelectedContact({
     //runs when selectedContactId changes
   }, [selectedContactId]); 
 
+    //prevent error by checking if contact is null before accessing properties
+    if (!contact) return <p>Loading contact details...</p>;
+
   return (
     <div>
-      {contact ? (
-        <>
-          <h2>Contact Details</h2>
-          <p>
-            <strong>Name:</strong> {contact.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {contact.email}
-          </p>
-          <p>
-            <strong>Phone:</strong> {contact.phone}
-          </p>
-          <p>
-            <strong>Address:</strong> {contact.address.street},{" "}
-            {contact.address.city}
-          </p>
-          {/* button to go back to list */}
-          <button onClick={() => setSelectedContactId(null)}>Back</button>
-        </>
-      ) : (
-        //shows while data is loading
-        <p>Loading...</p> 
-      )}
+      <h2>{contact.name}</h2>
+      <p><strong>Email:</strong> {contact.email}</p>
+      <p><strong>Phone:</strong> {contact.phone}</p>
+      <p><strong>Username:</strong> {contact.username}</p>
+      <p><strong>Website:</strong> {contact.website}</p>
+      <p><strong>Company:</strong> {contact.company.name}</p>
+      <p><strong>Address:</strong> {contact.address.street}, {contact.address.city}</p>
+
+      {/* Button to go back to full contact list */}
+      <button onClick={() => setSelectedContactId(null)}>Return to Contact List</button>
     </div>
   );
 }
